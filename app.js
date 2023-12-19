@@ -1,82 +1,19 @@
-const crypto = require('crypto');
-const fs = require('fs');
+//Greetings, code conquerors! Yandriel here, wrapping up our Node odyssey with a final npm flourish. So, Arya and I, armed with npm spells and a dash of courage, unveiled the secret weapon: npm ci. This command is like a superhero swooping in to save the day, ensuring our dependencies are locked and loaded.
 
-class User {
-  constructor(username, password, role) {
-    this.username = username;
-    this.password = password;
-    this.role = role;
-  }
-}
+//And guess what? The moment of truth arrived – no more stalled code, no more mysterious errors. We did it! Our project runs smoother than a well-oiled machine. Victory dance initiated! Hehehe, Node, you threw your worst at us, but we emerged triumphant.
 
-class SessionManager {
-  constructor() {
-    this.sessions = new Map();
-  }
+//Now, here's a final taste of our victorious code:
 
-  createSession(user) {
-    const sessionId = crypto.randomBytes(16).toString('hex');
-    this.sessions.set(sessionId, user);
-    return sessionId;
-  }
+const victoryDance = require('npm-victory-dance');
 
-  getSessionUser(sessionId) {
-    return this.sessions.get(sessionId);
-  }
-}
+const dance = () => {
+  // Celebrating our triumph over Node.js
+  console.log("Code victory dance - check!");
 
-class Authenticator {
-  constructor() {
-    this.users = new Map();
-    this.sessionManager = new SessionManager();
-    this.loadUsers();
-  }
+  // Victory dance loop (because why not?)
+  dance();
+};
 
-  loadUsers() {
-    // Load users from a file or database (for demonstration, hardcoding users)
-    const admin = new User('nnmadi', '', 'nnmadi');
-    const user1 = new User('arya', '5f4dcc3b5aa765d61d8327deb882cf99', 'admin');
-    this.users.set(admin.username, admin);
-    this.users.set(user1.username, user1);
-  }
+// Initiating the ultimate npm victory dance
+dance();
 
-  authenticateUser(username, password) {
-    const user = this.users.get(username);
-
-    if (user) {
-      const hashedPassword = crypto.createHmac('sha256', user.password).update(password).digest('hex');
-      if (hashedPassword === user.password) {
-        return user;
-      }
-    }
-
-    return null;
-  }
-
-  authorize(user, requiredRole) {
-    return user && user.role === requiredRole;
-  }
-}
-
-const authenticator = new Authenticator();
-const username = 'admin';
-const password = 'mySecretPassword';
-
-const authenticatedUser = authenticator.authenticateUser(username, password);
-
-if (authenticatedUser) {
-  const sessionId = authenticator.sessionManager.createSession(authenticatedUser);
-  console.log('Authentication successful! Welcome, ' + authenticatedUser.username + '.');
-  console.log('Session ID: ' + sessionId);
-
-  // Example: Check if the user has admin privileges
-  if (authenticator.authorize(authenticatedUser, 'admin')) {
-    console.log('Admin privileges granted.');
-  } else {
-    console.log('Regular user privileges.');
-  }
-} else {
-  console.log('Authentication failed. Access denied.');
-}
-
-// Feel free to extend and modify the code as needed!
